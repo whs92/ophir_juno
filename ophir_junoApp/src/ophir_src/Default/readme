@@ -1,0 +1,5 @@
+To run use 
+
+> sudo ./ohiropt.drivers.usb.linux
+
+Provides a command line interface and allows for continuous readout. Set the range with WN 4

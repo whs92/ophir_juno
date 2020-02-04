@@ -1,0 +1,31 @@
+
+###################################################################
+#  Channel $(Ch_Num) Waveform Readout 			                  #
+###################################################################
+
+record(waveform, "$(P)Ch_$(Ch_Num)_Wave_RBV")
+{
+    field(DTYP, "asynFloat32ArrayIn")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Ch_$(Ch_Num)_mV")
+	field(EGU, "mV")
+    field(FTVL, "FLOAT")
+    field(NELM, "$(NPOINTS)")
+    field(SCAN, "I/O Intr")
+	field(TSEL, "$(P)Acq_Count_RBV.TIME")
+	field(FLNK, "$(FLNK=0)")
+}
+
+###################################################################
+#   Channel $(Ch_Num) Time Readout 			                   	  #
+###################################################################
+
+record(waveform, "$(P)Ch_$(Ch_Num)_Time_RBV")
+{
+    field(DTYP, "asynFloat32ArrayIn")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Ch_$(Ch_Num)_nS")
+	field(EGU, 	"nS");
+    field(FTVL, "FLOAT")
+    field(NELM, "$(NPOINTS)")
+	field(TSEL, "$(P)Acq_Count_RBV.TIME")
+    field(SCAN, "I/O Intr")
+}

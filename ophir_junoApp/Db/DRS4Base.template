@@ -1,0 +1,100 @@
+###################################################################
+#  These records control run/stop                                 # 
+###################################################################
+record(bo, "$(P)Run_SP")
+{
+    #field(PINI,  "1")
+	field(DESC, "Run Acq")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Run")
+    field(ZNAM, "Stop")
+    field(ONAM, "Run")
+}
+
+record(bi, "$(P)Run_RBV")
+{
+    #field(PINI, "1")
+	field(DESC, "Run?")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Run")
+    field(ZNAM, "Done")
+    field(ZSV,  "NO_ALARM")
+    field(ONAM, "Running")
+    field(OSV,  "MINOR")
+    field(SCAN, "I/O Intr")
+}
+
+###################################################################
+#  This records is the number of points                           # 
+###################################################################
+
+record(longin, "$(P)MaxPoints_RBV")
+{
+   #field(PINI, "1")
+   field(DESC, "Points in Output")
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Max_Points")
+   field(SCAN, "I/O Intr")
+}
+
+###################################################################
+#  This records is the number of acquisitions                     # 
+###################################################################
+
+record(longin, "$(P)Acq_Count_RBV")
+{
+   #field(PINI, "1")
+   field(DESC, "# of Acq")
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Acq_Count")
+   field(SCAN, "I/O Intr")
+   field(TSE,  "-2")
+}
+
+###################################################################
+#  This controls the trigger					                   # 
+###################################################################
+
+record(longout, "$(P)Trig_Ch_SP")
+{
+   #field(PINI, "1")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Trig_Ch")
+}
+record(longin, "$(P)Trig_Ch_RBV")
+{
+   #field(PINI, "1")
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Trig_Ch")
+   field(SCAN, "I/O Intr")
+}
+
+record(ao, "$(P)Trig_mV_SP")
+{
+   #field(PINI, "1")
+   field(DTYP, "asynFloat64")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Trig_mV")
+}
+record(ai, "$(P)Trig_mV_RBV")
+{
+   #field(PINI, "1")
+   field(DTYP, "asynFloat64")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Trig_mV")
+   field(SCAN, "I/O Intr")
+}
+record(longout, "$(P)Trig_Del_nS_SP")
+{
+   #field(PINI, "1")
+   field(DTYP, "asynInt32")
+   field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Trig_Del_nS")
+}
+
+record(longin, "$(P)Trig_Del_nS_RBV")
+{
+   #field(PINI, "1")
+   field(DTYP, "asynInt32")
+   field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Trig_Del_nS")
+   field(SCAN, "I/O Intr")
+}
+
+
