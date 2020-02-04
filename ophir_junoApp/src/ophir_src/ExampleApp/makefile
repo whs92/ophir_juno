@@ -45,7 +45,7 @@ all: ophiropt.drivers.usb.linux
 ophiropt.drivers.usb.linux: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -L"/home/controls/support/ophir/include" -o "ophiropt.drivers.usb.linux" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L"/usr/include" -o "ophiropt.drivers.usb.linux" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 

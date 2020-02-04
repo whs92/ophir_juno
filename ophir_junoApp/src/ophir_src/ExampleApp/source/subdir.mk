@@ -4,26 +4,26 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/Channel.cpp \
-../src/UsbDriver.cpp \
-../src/main.cpp 
+../source/Channel.cpp \
+../source/UsbDriver.cpp \
+../source/main.cpp 
 
 OBJS += \
-./src/Channel.o \
-./src/UsbDriver.o \
-./src/main.o 
+./source/Channel.o \
+./source/UsbDriver.o \
+./source/main.o 
 
 CPP_DEPS += \
-./src/Channel.d \
-./src/UsbDriver.d \
-./src/main.d 
+./source/Channel.d \
+./source/UsbDriver.d \
+./source/main.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-src/%.o: ../src/%.cpp
+source/%.o: ../source/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -std=c++0x -I"/home/controls/support/ophir/include" -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -std=c++0x -I"/usr/include/libusb-1.0/" -O2 -g -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
