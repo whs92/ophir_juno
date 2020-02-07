@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <cstring>
 #include <sys/types.h>
 #include <libusb.h>
 #include "UsbDriver.h"
@@ -53,6 +54,7 @@ public:
 	
 	UsbDriver usbDriver;
 	std::vector<int> devices;
+	epicsFloat32 avBuff[10000]= {0};
 	
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
@@ -60,7 +62,11 @@ protected:
 	#define FIRST_SCOPE_COMMAND P_Range
 	int P_Run;
 	int P_E;	
-    #define LAST_SCOPE_COMMAND P_Run
+	int P_Over;
+	int P_AvE;
+	int P_AvN;
+	int P_Freq;
+    #define LAST_SCOPE_COMMAND P_Freq
  
 
 	
@@ -69,14 +75,7 @@ private:
     epicsEventId eventId_;
     
     epicsFloat32 *wave_a_1;
-	epicsFloat32 *wave_a_2;
-	epicsFloat32 *wave_a_3;
-	epicsFloat32 *wave_a_4;
 	
-	epicsFloat32 *time_a_1;
-	epicsFloat32 *time_a_2;
-	epicsFloat32 *time_a_3;
-	epicsFloat32 *time_a_4;
 	
 	
 		

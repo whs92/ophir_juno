@@ -28,7 +28,16 @@ void dataTaskThread(void *drvPvt);
 
 	createParam("H_Range", 		asynParamInt32,			&P_Range);
 	createParam("H_Run", 		asynParamInt32,			&P_Run);
+	createParam("H_Over", 		asynParamInt32, 		&P_Over);
+	createParam("H_AvN", 		asynParamInt32, 		&P_AvN);
+	createParam("H_E", 			asynParamFloat64,		&P_E);
+	createParam("H_AvE", 		asynParamFloat64,		&P_AvE);
+	createParam("H_Freq", 		asynParamFloat64,		&P_Freq);
 	
+	status = (asynStatus) setIntegerParam(P_Over, 0); 	
+	status = (asynStatus) setDoubleParam(P_E, 0); 
+	status = (asynStatus) setDoubleParam(P_AvE, 0); 
+	status = (asynStatus) setDoubleParam(P_Freq, 0);
 	/* Do callbacks so higher layers see any changes */
 	status = (asynStatus) callParamCallbacks();
 
@@ -71,15 +80,27 @@ In this task we respond to new messages from the device once we enter the contin
 void OphirJunoAsynPortDriver::dataTask(void){
 	int run =0;
 	asynStatus status;
-
+	int avIdx = 0;
+	int avN = 0;
+	int i=0;
+	double average=0;
+	
+	
 	while(1){
 		getIntegerParam(P_Run, &run);
+		getIntegerParam(P_AvN, &avN);
+		
 		if (run){
 
 			for (std::vector<int>::iterator it = devices.begin(); it < devices.end();)
 			{
 				int channelId = *it;
 				std::string reading = usbDriver.getReading(channelId);
+				
+				
+					
+				
+				
 				if(!reading.empty())
 				{
 					if(reading == CHANNEL_CLOSE)
@@ -96,7 +117,47 @@ void OphirJunoAsynPortDriver::dataTask(void){
 					}
 					else
 					{
-						 printf("main[%d]. reading = %s", channelId, reading.c_str());
+						// Example "*0.334E-3 FREQ 7.145E0"
+						std::string energy = reading.substr(1,8);
+						std::string over = reading.substr(1,4);
+						
+						if(over == "Over"){ // Overrange
+							
+							status = (asynStatus) setIntegerParam(P_Over, 1); 
+							//printf("Over Range: String is %s \n",reading.c_str());
+						}
+						else{				// Not Overrange
+							
+							status = (asynStatus) setIntegerParam(P_Over, 0); 
+													
+							if(reading.length() > 10){
+								std::string freq = reading.substr(15,21);
+								//printf("String is %s, Energy = %s J, which is %f J, freq = %f Hz\n",reading.c_str(), energy.c_str(), atof(energy.c_str()), atof(freq.c_str()));
+								
+								//callbacks
+								status = (asynStatus) setDoubleParam(P_Freq, atof(freq.c_str()));
+								if(avIdx >=avN){
+									status = (asynStatus) setDoubleParam(P_AvE, average);
+								}
+							}
+							
+							//callbacks
+							status = (asynStatus) setDoubleParam(P_E, 1E6*atof(energy.c_str())); //in uJ
+							
+							//Add the value to the circular buffer
+							avBuff[avIdx%avN] = 1E6*atof(energy.c_str());
+							avIdx ++;
+							//Itterate over that buffer to calculate the average
+							average = 0;
+							for(i=0; i<avN; i++){
+								average += avBuff[i];
+							}
+							average = average/avN;
+							
+						}
+						
+						
+						
 					}
 				}
 				++it;
@@ -152,6 +213,7 @@ asynStatus OphirJunoAsynPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
     const char* functionName = "writeInt32";
 	std::string command;
 	int rbv;
+	int i;
 	
 	
     /* Fetch the parameter string name for possible use in debugging */
@@ -171,6 +233,12 @@ asynStatus OphirJunoAsynPortDriver::writeInt32(asynUser *pasynUser, epicsInt32 v
 		status = (asynStatus) setIntegerParam(function, rbv);
 		
 	    
+	}
+	else if(function == P_AvN){
+		status = (asynStatus) setIntegerParam(function, value);
+		for(i=0; i<value; i++){
+			avBuff[i] = 0;
+		}
 	}
 	else if( function == P_Run){
 		

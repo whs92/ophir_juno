@@ -5,12 +5,12 @@
 record(mbbo, "$(P)Range_SP")
 {
 	field(DESC, "Set device range")
-	field(ZRST, "200uJ")
-	field(ONST, "2mJ")
-	field(TWST, "20mJ")
-	field(THST, "200mJ")
-	field(FRST, "2J")
-	field(FVST, "10J")
+	field(ZRST, "10J")
+	field(ONST, "2J")
+	field(TWST, "200mJ")
+	field(THST, "20mJ")
+	field(FRST, "2mJ")
+	field(FVST, "200uJ")
 	field(ZRVL, "0")
 	field(ONVL, "1")
 	field(TWVL, "2")
@@ -19,17 +19,19 @@ record(mbbo, "$(P)Range_SP")
 	field(FVVL, "5")
 	field(DTYP, "asynInt32")
     field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Range")   
+	field(DISV, "1")
+	field(SDIS, "$(P)Run_RB.RVAL NPP")
 }
 
 record(mbbi, "$(P)Range_RB")
 {
 	field(DESC, "The Range currently Set")
-	field(ZRST, "200uJ")
-	field(ONST, "2mJ")
-	field(TWST, "20mJ")
-	field(THST, "200mJ")
-	field(FRST, "2J")
-	field(FVST, "10J")
+	field(ZRST, "10J")
+	field(ONST, "2J")
+	field(TWST, "200mJ")
+	field(THST, "20mJ")
+	field(FRST, "2mJ")
+	field(FVST, "200uJ")
 	field(ZRVL, "0")
 	field(ONVL, "1")
 	field(TWVL, "2")
@@ -54,7 +56,7 @@ record(bo, "$(P)Run_SP")
     field(ONAM, "Run")
 }
 
-record(bi, "$(P)Run_RBV")
+record(bi, "$(P)Run_RB")
 {
     
 	field(DESC, "Run Status")
@@ -72,13 +74,61 @@ record(bi, "$(P)Run_RBV")
 #  These records give readback for a particular JUNO head         # 
 ###################################################################
 
-record(ai, "$(P)E_RBV")
+record(ai, "$(P)E_RB")
 {
 	field(DESC, "Energy Reading from Device")
 	field(DTYP, "asynFloat64")
+	field(EGU, "uJ")
     field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_E") 
     field(SCAN, "I/O Intr")	
+	field(PREC, "12")
+	field(MDEL, "-1")
+	field(ADEL, "-1")
+	field(TSE, "-2")
 }
+
+record(ai, "$(P)AvE_RB")
+{
+	field(DESC, "Average Energy")
+	field(DTYP, "asynFloat64")
+	field(EGU, "uJ")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_AvE") 
+    field(SCAN, "I/O Intr")	
+	field(PREC, "12")
+	field(MDEL, "-1")
+	field(ADEL, "-1")
+}
+
+record(longout, "$(P)AvN_SP")
+{
+	field(DESC, "Average over N")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_AvN")
+}
+
+
+record(bi, "$(P)OverRange_RB")
+{
+	
+	field(DESC, "Over range")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Over")
+    field(ZNAM, "Range OK")
+    field(ONAM, "Over Range")
+    field(SCAN, "I/O Intr")
+}
+
+record(ai, "$(P)Freq_RB")
+{
+	field(DESC, "Frequency of Triggering")
+	field(EGU, "Hz")
+	field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Freq") 
+    field(SCAN, "I/O Intr")	
+	field(MDEL, "-1")
+	field(ADEL, "-1")
+}
+
 
 
 

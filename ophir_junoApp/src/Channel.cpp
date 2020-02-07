@@ -23,7 +23,7 @@ Channel::Channel(Channel&& source)
 , mUsbDevice(std::move(source.mUsbDevice))
 , mContinueMeasuring(std::move(source.mContinueMeasuring))
 {}
-
+//
 Channel& Channel::operator=(Channel&& source)
 {
     mThread = std::move(source.mThread);
@@ -168,7 +168,7 @@ void Channel::workThread()
             {
                 std::string response(reinterpret_cast<const char *>(data), transferred);
                 mQueue->push(response);
-                printf("workThread[%d]. reading = %s", mUsbDevice.channelId, response.c_str());
+                //printf("workThread[%d]. reading = %s", mUsbDevice.channelId, response.c_str());
             }
             else if(result != LIBUSB_SUCCESS && result != LIBUSB_ERROR_TIMEOUT)
             {
