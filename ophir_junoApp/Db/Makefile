@@ -12,8 +12,8 @@ include $(TOP)/configure/CONFIG
 # databases, templates, substitutions like this
 #DB += xxx.db
 
-DB += DRS4Base.template
-DB += DRS4Channel.template
+DB += OphirJuno.template
+#DB += DRS4Channel.template
 
 #----------------------------------------------------
 # If <anyname>.db template is not named <anyname>*.template add

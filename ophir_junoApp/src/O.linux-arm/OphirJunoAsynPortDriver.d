@@ -1,4 +1,5 @@
-DRS4AsynPortDriver.o: ../DRS4AsynPortDriver.cpp ../DRS4AsynPortDriver.h \
+OphirJunoAsynPortDriver.o: ../OphirJunoAsynPortDriver.cpp \
+ ../OphirJunoAsynPortDriver.h \
  /home/controls/support/asyn/4-34/include/asynPortDriver.h \
  /usr/local/epics/base/include/epicsTypes.h \
  /usr/local/epics/base/include/shareLib.h \
@@ -28,8 +29,8 @@ DRS4AsynPortDriver.o: ../DRS4AsynPortDriver.cpp ../DRS4AsynPortDriver.h \
  /home/controls/support/asyn/4-34/include/asynDrvUser.h \
  /home/controls/support/asyn/4-34/include/asynOption.h \
  /home/controls/support/asyn/4-34/include/asynParamType.h \
- /home/controls/support/asyn/4-34/include/paramErrors.h ../strlcpy.h \
- ../DRS.h ../averager.h ../musbstd.h \
+ /home/controls/support/asyn/4-34/include/paramErrors.h ../libusb.h \
+ ../UsbDriver.h ../Channel.h ../Definition.h ../Queue.h \
  /usr/local/epics/base/include/epicsThread.h \
  /usr/local/epics/base/include/epicsEvent.h \
  /usr/local/epics/base/include/os/Linux/osdEvent.h \

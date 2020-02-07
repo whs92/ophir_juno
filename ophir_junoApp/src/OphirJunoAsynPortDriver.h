@@ -1,7 +1,12 @@
 #include "asynPortDriver.h"
 
-#include "strlcpy.h"
-#include "DRS.h"
+#include <stdio.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sys/types.h>
+#include <libusb.h>
+#include "UsbDriver.h"
 
 #define _USE_MATH_DEFINES
 
@@ -14,7 +19,7 @@
 #include <sys/ioctl.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
+
 #include <errno.h>
 #include <math.h>
 
@@ -34,40 +39,28 @@
 #define PI	M_PI	/* pi to machine precision, defined in math.h */
 #define TWOPI	(2.0*PI)
 
-class DRS4AsynPortDriver : public asynPortDriver {
+class OphirJunoAsynPortDriver : public asynPortDriver {
 public:
-    DRS4AsynPortDriver(const char *portName, int maxArraySize);
+    OphirJunoAsynPortDriver(const char *portName, int maxArraySize);
                  
     /* These are the methods that we override from asynPortDriver */
 	virtual asynStatus writeInt32(asynUser *pasynUser, epicsInt32 value);
-	virtual asynStatus writeFloat64(asynUser *pasynUser, epicsFloat64 value);
-	virtual asynStatus readFloat32Array(asynUser *pasynUser, epicsFloat32 *value, size_t nElements, size_t *nIn);
+	virtual asynStatus readInt32(asynUser *pasynUser, epicsInt32 *value);
+
 
     /* These are the methods that are new to this class */
 	void dataTask(void);
-
+	
+	UsbDriver usbDriver;
+	std::vector<int> devices;
+	
 protected:
     /** Values used for pasynUser->reason, and indexes into the parameter library. */
-    int P_Run;
-	#define FIRST_SCOPE_COMMAND P_Run
-    int P_Acq_Count;
-	int P_Max_Points;
-	
-	int P_Trig_mV;
-	int P_Trig_Ch;
-	int P_Trig_Del_nS;
-	
-	int P_Ch_1_mV;
-	int P_Ch_2_mV;
-	int P_Ch_3_mV;
-	int P_Ch_4_mV;
-	
-	int P_Ch_1_nS;
-	int P_Ch_2_nS;
-	int P_Ch_3_nS;
-	int P_Ch_4_nS;
-		
-    #define LAST_SCOPE_COMMAND P_Ch_4_nS
+    int P_Range;
+	#define FIRST_SCOPE_COMMAND P_Range
+	int P_Run;
+	int P_E;	
+    #define LAST_SCOPE_COMMAND P_Run
  
 
 	
@@ -85,8 +78,7 @@ private:
 	epicsFloat32 *time_a_3;
 	epicsFloat32 *time_a_4;
 	
-	DRS *drs;
-    DRSBoard *b;	
+	
 		
 };
 

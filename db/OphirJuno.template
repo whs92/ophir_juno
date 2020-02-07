@@ -1,0 +1,84 @@
+###################################################################
+#  These records control range of the device  (PE25-C)            # 
+###################################################################
+
+record(mbbo, "$(P)Range_SP")
+{
+	field(DESC, "Set device range")
+	field(ZRST, "200uJ")
+	field(ONST, "2mJ")
+	field(TWST, "20mJ")
+	field(THST, "200mJ")
+	field(FRST, "2J")
+	field(FVST, "10J")
+	field(ZRVL, "0")
+	field(ONVL, "1")
+	field(TWVL, "2")
+	field(THVL, "3")
+	field(FRVL, "4")
+	field(FVVL, "5")
+	field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Range")   
+}
+
+record(mbbi, "$(P)Range_RB")
+{
+	field(DESC, "The Range currently Set")
+	field(ZRST, "200uJ")
+	field(ONST, "2mJ")
+	field(TWST, "20mJ")
+	field(THST, "200mJ")
+	field(FRST, "2J")
+	field(FVST, "10J")
+	field(ZRVL, "0")
+	field(ONVL, "1")
+	field(TWVL, "2")
+	field(THVL, "3")
+	field(FRVL, "4")
+	field(FVVL, "5")
+	field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Range")   
+	field(SCAN, "I/O Intr")
+}
+
+###################################################################
+#  These records control run/stop                                 # 
+###################################################################
+
+record(bo, "$(P)Run_SP")
+{
+	field(DESC, "Run Acq")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Run")
+    field(ZNAM, "Stop")
+    field(ONAM, "Run")
+}
+
+record(bi, "$(P)Run_RBV")
+{
+    
+	field(DESC, "Run Status")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_Run")
+    field(ZNAM, "Done")
+    field(ZSV,  "NO_ALARM")
+    field(ONAM, "Running")
+    field(OSV,  "MINOR")
+    field(SCAN, "I/O Intr")
+}
+
+
+###################################################################
+#  These records give readback for a particular JUNO head         # 
+###################################################################
+
+record(ai, "$(P)E_RBV")
+{
+	field(DESC, "Energy Reading from Device")
+	field(DTYP, "asynFloat64")
+    field(INP,  "@asyn($(PORT),$(ADDR),$(TIMEOUT))H_E") 
+    field(SCAN, "I/O Intr")	
+}
+
+
+
